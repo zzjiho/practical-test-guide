@@ -9,9 +9,11 @@ import sample.cafekiosk.spring.domain.order.OrderRepository;
 import sample.cafekiosk.spring.domain.product.Product;
 import sample.cafekiosk.spring.domain.product.ProductRepository;
 import sample.cafekiosk.spring.domain.product.ProductType;
+import sample.cafekiosk.spring.domain.stock.Stock;
 import sample.cafekiosk.spring.domain.stock.StockRepository;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -35,16 +37,33 @@ public class OrderService {
                 .collect(Collectors.toList());
 
         // 재고 엔티티 조회
-//        stockRepository.
+        List<Stock> stocks = stockRepository.findAllByProductNumberIn(stockProductNumbers);
+        Map<String, Stock> stockMap = stocks.stream()
+                .collect(Collectors.toMap(Stock::getProductNumber, s -> s));
 
         // 상품별 counting
+        Map<String, Long> productCountingMap = stockProductNumbers.stream()
+                .collect(Collectors.groupingBy(p -> p, Collectors.counting())); // 상품 번호 별로 counting
+
         // 재고 차감 시도
+        for (String stockProductNumber : new HashSet<>(stockProductNumbers)) {
+            Stock stock = stockMap.get(stockProductNumber);
+            int quantity = productCountingMap.get(stockProductNumber).intValue();
+
+            if (stock.isQuantityLessThan(quantity)) { // 재고 부족 체크를 두번 하는 이유는
+                throw new IllegalArgumentException("재고가 부족한 상품이 있습니다.");
+            }
+            stock.deductQuantity(quantity); // stock은 service의 상황을 모른다. 그래서 stock 자체를 보장해야하기 때문에 따로 예외처리를 한다.
+
+        }
 
         Order order = Order.create(products, registeredDateTime);
         Order savedOrder = orderRepository.save(order);
 
-        return OrderResponse.of(order);
+        return OrderResponse.of(savedOrder);
     }
+
+
 
     private List<Product> findProductsBy(List<String> productNumbers) {
         List<Product> products = productRepository.findAllByProductNumberIn(productNumbers);
@@ -52,10 +71,8 @@ public class OrderService {
         Map<String, Product> productMap = products.stream()
                 .collect(Collectors.toMap(Product::getProductNumber, p -> p));
 
-        List<Product> duplicateProducts = productNumbers.stream()
-                .map(productNumber -> productMap.get(productNumber)) // productMap에서 해당 제품 번호를 키로 가지는 Product 객체를 조회
+        return productNumbers.stream()
+                .map(productMap::get) // productMap에서 해당 제품 번호를 키로 가지는 Product 객체를 조회
                 .collect(Collectors.toList());
-
-        return duplicateProducts;
     }
 }
