@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.transaction.annotation.Transactional;
 import sample.cafekiosk.spring.api.controller.order.request.OrderCreateRequest;
 import sample.cafekiosk.spring.api.service.order.response.OrderResponse;
 import sample.cafekiosk.spring.domain.order.OrderRepository;
@@ -47,6 +48,7 @@ class OrderServiceTest {
         orderProductRepository.deleteAllInBatch();
         productRepository.deleteAllInBatch(); // deleteAllInBatch는 한번에 삭제하는 것이고 deleteAll은 하나씩 삭제
         orderRepository.deleteAllInBatch();
+        stockRepository.deleteAllInBatch();
     }
     
     @DisplayName("주문번호 리스트를 받아 주문을 생성한다")
