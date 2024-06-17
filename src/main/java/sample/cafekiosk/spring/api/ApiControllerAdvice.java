@@ -10,10 +10,15 @@ import java.net.BindException;
 @RestControllerAdvice
 public class ApiControllerAdvice {
 
-    @ResponseStatus(HttpStatus.BAD_REQUEST) // 이 메소드가 실행되면 400 에러를 리턴
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(BindException.class)
-    public ApiResponse<Object> bindException(BindException e) { // BindException이 발생하면 이 메소드를 실행
-        return ApiResponse.of(HttpStatus.BAD_REQUEST, e.getMessage(), null);
+    public ApiResponse<Object> bindException(BindException e) { // BindException 예외 발생 시 처리
+        return ApiResponse.of(
+                HttpStatus.BAD_REQUEST,
+                e.getMessage(),
+                null
+        );
     }
 
 }
+
