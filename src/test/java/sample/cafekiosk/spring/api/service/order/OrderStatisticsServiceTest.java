@@ -8,6 +8,7 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import sample.cafekiosk.spring.IntegrationTestSupport;
 import sample.cafekiosk.spring.client.mail.MailSendClient;
 import sample.cafekiosk.spring.domain.history.mail.MailSendHistory;
 import sample.cafekiosk.spring.domain.history.mail.MailSendHistoryRepository;
@@ -29,8 +30,8 @@ import static org.mockito.ArgumentMatchers.any;
 import static sample.cafekiosk.spring.domain.product.ProductSellingStatus.SELLING;
 import static sample.cafekiosk.spring.domain.product.ProductType.HANDMADE;
 
-@SpringBootTest
-class OrderStatisticsServiceTest {
+class OrderStatisticsServiceTest extends IntegrationTestSupport {
+
 
     @Autowired
     private OrderStatisticsService orderStatisticsService;
@@ -70,9 +71,9 @@ class OrderStatisticsServiceTest {
         List<Product> products = List.of(product1, product2, product3);
         productRepository.saveAll(products);
 
-        Order order1 = createPaymentCompletedOrder(LocalDateTime.of(2023, 3, 4, 23, 59,59), products);
+        Order order1 = createPaymentCompletedOrder(LocalDateTime.of(2023, 3, 4, 23, 59, 59), products);
         Order order2 = createPaymentCompletedOrder(now, products);
-        Order order3 = createPaymentCompletedOrder(LocalDateTime.of(2023, 3, 5, 23, 59,59), products);
+        Order order3 = createPaymentCompletedOrder(LocalDateTime.of(2023, 3, 5, 23, 59, 59), products);
         Order order4 = createPaymentCompletedOrder(LocalDateTime.of(2023, 3, 6, 0, 0), products);
 
         // stubbing : mock 객체에 특정한 행위에 대한 반환값을 지정하는 것
@@ -112,13 +113,6 @@ class OrderStatisticsServiceTest {
                 .name("메뉴 이름")
                 .build();
     }
-
-
-
-
-
-
-
 
 
 }
