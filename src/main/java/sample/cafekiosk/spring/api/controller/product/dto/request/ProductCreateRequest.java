@@ -26,6 +26,14 @@ public class ProductCreateRequest {
     @Positive(message = "상품 가격은 양수여야 합니다.")
     private int price;
 
+    /**
+     * 테스트에서만 필요한 메소드가 생겼는데 프로덕션 코드에서는 필요 없다면 ?
+     *
+     * 아래 builder 패턴은 테스트 코드에서만 사용하기 위해서 만들어졌는데 어떻게 해야할까 ?
+     * -> 만들어도 된다. (getter, 기본생성자 등등..)
+     * 미래에도 충분히 사용될 수 있는 성격의 메소드라면 괜찮다.
+     * 하지만 무분별한 생성은 지양하는것이 좋다..
+     */
     @Builder
     public ProductCreateRequest(ProductType type, ProductSellingStatus sellingStatus, String name, int price) {
         this.type = type;

@@ -32,7 +32,6 @@ import static sample.cafekiosk.spring.domain.product.ProductType.HANDMADE;
 
 class OrderStatisticsServiceTest extends IntegrationTestSupport {
 
-
     @Autowired
     private OrderStatisticsService orderStatisticsService;
 
@@ -47,9 +46,6 @@ class OrderStatisticsServiceTest extends IntegrationTestSupport {
 
     @Autowired
     private MailSendHistoryRepository mailSendHistoryRepository;
-
-    @MockBean
-    private MailSendClient mailSendClient;
 
     @AfterEach
     void tearDown() {

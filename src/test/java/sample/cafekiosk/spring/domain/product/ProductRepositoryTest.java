@@ -4,7 +4,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.transaction.annotation.Transactional;
+import sample.cafekiosk.spring.IntegrationTestSupport;
 
 import java.util.List;
 
@@ -15,10 +18,8 @@ import static sample.cafekiosk.spring.domain.product.ProductType.HANDMADE;
 
 //repository test는 단위테스트 성격을 갖고 있다.
 //@DataJpaTest //이거보단 SpringBootTest를 사용하는게 좋다.
-@ActiveProfiles("test")
-//@SpringBootTest
-@DataJpaTest
-class ProductRepositoryTest {
+@Transactional //테스트 종료시 롤백
+class ProductRepositoryTest extends IntegrationTestSupport {
 
     @Autowired
     private ProductRepository productRepository;
