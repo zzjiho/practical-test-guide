@@ -3,9 +3,6 @@ package sample.cafekiosk.spring.domain.product;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 import sample.cafekiosk.spring.IntegrationTestSupport;
 
@@ -17,7 +14,6 @@ import static sample.cafekiosk.spring.domain.product.ProductSellingStatus.*;
 import static sample.cafekiosk.spring.domain.product.ProductType.HANDMADE;
 
 //repository test는 단위테스트 성격을 갖고 있다.
-//@DataJpaTest //이거보단 SpringBootTest를 사용하는게 좋다.
 @Transactional //테스트 종료시 롤백
 class ProductRepositoryTest extends IntegrationTestSupport {
 
@@ -26,7 +22,7 @@ class ProductRepositoryTest extends IntegrationTestSupport {
 
     @DisplayName("원하는 판매상태를 가진 상품들을 조회한다.")
     @Test
-    void findAllBySellingStatusIn() throws Exception {
+    void findAllBySellingStatusIn() {
         // given
         Product product1 = createProduct("001", HANDMADE, SELLING, "아메리카노", 4000);
         Product product2 = createProduct("002", HANDMADE, HOLD, "카페라떼", 4500);

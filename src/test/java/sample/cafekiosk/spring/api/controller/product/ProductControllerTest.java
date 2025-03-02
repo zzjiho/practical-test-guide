@@ -1,20 +1,14 @@
 package sample.cafekiosk.spring.api.controller.product;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import sample.cafekiosk.spring.ControllerTestSupport;
 import sample.cafekiosk.spring.api.controller.product.dto.request.ProductCreateRequest;
 import sample.cafekiosk.spring.api.service.product.response.ProductResponse;
-import sample.cafekiosk.spring.api.service.product.response.ProductService;
 import sample.cafekiosk.spring.domain.product.ProductSellingStatus;
 import sample.cafekiosk.spring.domain.product.ProductType;
 
@@ -158,7 +152,7 @@ class ProductControllerTest extends ControllerTestSupport {
         // given
         List<ProductResponse> result = List.of();
 
-        when(productService.getSellingProducts()).thenReturn(result);
+        when(productService.getSellingProducts()).thenReturn(result); // thenReturn(): 목(mock) 객체의 특정 메서드가 호출되었을 때 반환할 값을 지정
 
         // when // then
         mockMvc.perform(

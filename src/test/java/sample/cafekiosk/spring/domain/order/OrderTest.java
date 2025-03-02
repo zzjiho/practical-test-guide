@@ -42,7 +42,7 @@ class OrderTest {
         Order order = Order.create(products, LocalDateTime.now());
 
         // then
-        assertThat(order.getOrderStatus()).isEqualByComparingTo(OrderStatus.INIT);
+        assertThat(order.getOrderStatus()).isEqualByComparingTo(OrderStatus.INIT); // isEqualByComparingTo : enum 비교
     }
 
     @DisplayName("주문 생성 시 주문 등록 시간을 기록한다.")

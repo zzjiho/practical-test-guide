@@ -14,6 +14,11 @@ import sample.cafekiosk.spring.domain.product.ProductType;
 @NoArgsConstructor // Post요청이 올때 ObjectMapper가 역직렬화를 도와주는데 (JSON -> String) 이때 ObjectMapper가 기본생성자를 쓴다.
 public class ProductCreateRequest {
 
+    /**
+     * @NotBlank 만 해서 클라이언트에게, 너 공백이야 이정도만 알려주고
+     * 20자 검증이라던지 이런것들은 service 레이어에서 검증을 하던지,
+     * product code에서 생성시점에서 검증을 하던지 안쪽 레이어에서 검증을 하는게 더 맞다 라고 하시네요
+     */
     @NotNull(message = "상품 타입은 필수입니다.")
     private ProductType type;
 
