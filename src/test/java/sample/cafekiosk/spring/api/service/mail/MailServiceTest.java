@@ -33,6 +33,12 @@ class MailServiceTest {
     @DisplayName("메일 전송 테스트")
     @Test
     void sendMail() {
+
+        /**
+         * BDDMockito란
+         * 기존 Mockito에서는 when(...).thenReturn(...)와 같이 스텁을 설정하지만,
+         * BDDMockito는 given(...).willReturn(...)와 같은 구문을 사용하여 테스트의 조건(given), 행동(when), 결과(then) 순으로 자연스럽게 표현
+         */
         // given
 //        when(mailSendClient.sendEmail(anyString(), anyString(), anyString(), anyString()))
 //                .thenReturn(true);

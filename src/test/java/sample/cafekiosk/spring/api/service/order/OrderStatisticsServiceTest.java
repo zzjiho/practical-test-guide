@@ -72,8 +72,27 @@ class OrderStatisticsServiceTest extends IntegrationTestSupport {
         Order order3 = createPaymentCompletedOrder(LocalDateTime.of(2023, 3, 5, 23, 59, 59), products);
         Order order4 = createPaymentCompletedOrder(LocalDateTime.of(2023, 3, 6, 0, 0), products);
 
-        // stubbing : mock 객체에 특정한 행위에 대한 반환값을 지정하는 것
-        //any(String.class) : String 이면 무엇이든 상관없다.
+
+        /**
+         * 보통 어떤 경우에 stubbing 하여 테스트를 작성해야 할까 ?
+         *
+         * 기본적으로 외부 API에 대해서 mocking을 하게 된다.
+         * '내가 제어할 수 없는 행위'에 대해서 mokcing을 사용한다고 보면 된다.
+         *
+         * 메일 전송의 경우엔 mokcing하지 않는다면 테스트 수행할 때마다 어딘가로 메일을 보내거나 해야 하는데
+         * 테스트 수행시간 측면이나, 애초에 테스트하고자 하는 내용이 아니기 때문에 메일 전송은 가정(stubbing)으로 대체한다.
+         *
+         * <<mocking, stubbing 차이 자세한건 노션에 정리한거 보기>>
+         * Stub은 테스트 검증을 위해 미리 지정해놓은 값을 반환합니다.
+         * 테스트할 기능 외에는 신경쓰지 않습니다.
+         * 반환된 값에 초점을 맞추어 검증합니다.
+         *
+         * Mock은 특정 행동을 지정하고, 테스트 과정에서 그 행동이 의도대로 이루어졌는지를 검증합니다.
+         * 정리하면, Stub은 상태 검증, Mock은 행위 검증의 시각으로 보는 것이 좋습니다.
+         */
+        // sendEmail 했을때, 실제로 어떤 string이 올지 모르니 any(String.class)로 지정
+        // any(String.class) : String 이면 무엇이든 상관없다.
+        // stubbing : mock 객체에 우리가 원하는 행위를 정의하는 것
         Mockito.when(mailSendClient.sendEmail(any(String.class), any(String.class), any(String.class), any(String.class)))
                 .thenReturn(true);
 
